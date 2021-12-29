@@ -77,6 +77,10 @@ function mainMenu() {
                     value: "VIEW_BY_MANAGER"
                 },
                 {
+                    name: "Total Salary Budget Per Department",
+                    value: "BUDGET"
+                  },
+                {
                     name: "Exit",
                     value: "EXIT"
                 }
@@ -123,6 +127,9 @@ function mainMenu() {
                 break;
             case "VIEW_ROLES":
                 viewRoles();
+                break;
+            case "BUDGET":
+                totalBudgetPerDepartment();
                 break;
             default:
                 quit();
@@ -511,6 +518,18 @@ function viewByManager() {
                 .then(() => mainMenu())
         });
 }
+
+// VIEW TOTAL BUDGET PER DEPARTMENT
+function totalBudgetPerDepartment() {
+    db.budgetsPerDepartment()
+      .then(([rows]) => {
+        let departments = rows;
+        console.log("\n");
+        console.table(departments);
+      })
+      .then(() => mainMenu());
+  }
+  
 
 
 
