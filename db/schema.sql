@@ -1,3 +1,6 @@
+-- Copy and Paste code from schema.sql into a MYSQL query window and run query. 
+-- This creates the database and tables.
+
 DROP DATABASE IF EXISTS employees;
 CREATE DATABASE employees;
 

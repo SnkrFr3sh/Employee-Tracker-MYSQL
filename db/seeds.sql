@@ -1,3 +1,6 @@
+-- Copy and Paste code from seeds.sql into MYSQL query window and run query. 
+-- This populates the tables.
+
 use employees;
 
 INSERT INTO department
