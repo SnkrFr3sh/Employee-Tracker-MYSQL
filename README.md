@@ -37,12 +37,19 @@ This project is created for users to track employees information. Specifically E
 
 
 ## Installation
-1. Download the respository off GitHub. 2. Open the repository folder within VSCODE. 3. Run the index.js file, located in the root repository folder, through the terminal. 4. run "npm install" to install the npm packages (ie Inquirer). 5. run "node index.js" in the terminal. 
+1. Download the respository off GitHub. 
+2. Open the repository folder within VSCODE. 
+3. Run the index.js file, located in the root repository folder, through the terminal. 
+4. Run "npm install" to install the npm packages (ie Inquirer). 
+5. Run "node index.js" in the terminal. 
 
 
 
 ## Usage
-TO ADD AN EMPLOYEE: 1. Using the arrow buttons, scroll to "Add Employee" and press ENTER. 2. Follow the prompts. Be sure to have all the information (name, role, salary, manager) ready for database input. 3. Once entered, the employee will then be put into the database with information you inputted. 
+TO ADD AN EMPLOYEE: 
+1. Using the arrow buttons, scroll to "Add Employee" and press ENTER. 
+2. Follow the prompts. Be sure to have all the information (name, role, salary, manager) ready for database input. 
+3. Once entered, the employee will then be put into the database with information you inputted. 
 
 
 
