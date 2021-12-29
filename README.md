@@ -38,10 +38,14 @@ This project is created for users to track employees information. Specifically E
 
 ## Installation
 1. Download the respository off GitHub. 
-2. Open the repository folder within VSCODE. 
-3. Run the index.js file, located in the root repository folder, through the terminal. 
-4. Run "npm install" to install the npm packages (ie Inquirer). 
-5. Run "node index.js" in the terminal. 
+2. Open the repository folder within VSCODE.
+3. Open MYSQL
+4. Back in VSCODE, Modify the connection.js file to reflect your local MYSQL login
+5. Copy and Paste code from schema.sql into a MYSQL query window and run query. This creates the database and tables.
+6. Copy and Paste code from seeds.sql into MYSQL query window and run query. This populates the tables.
+7. Run the index.js file, located in the root repository folder, through the terminal. 
+8. Run "npm install" to install the npm packages (ie Inquirer). 
+9. Run "node index.js" in the terminal. 
 
 
 
