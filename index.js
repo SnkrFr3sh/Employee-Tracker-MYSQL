@@ -1,6 +1,6 @@
-const db = require("./db");
 const logo = require("asciiart-logo");
 const { prompt } = require("inquirer");
+const db = require("./db");
 require("console.table");
 
 init();
@@ -14,7 +14,7 @@ function init() {
 
     console.log(menuLogo);
 
-    menuOptions();
+    mainMenu();
 }
 
 function mainMenu() {
@@ -49,6 +49,10 @@ function mainMenu() {
                     value: "REMOVE_ROLE"
                 },
                 {
+                    name: "View All Employees",
+                    value: "ALL_EMPLOYEES"
+                },
+                {
                     name: "Add Employee",
                     value: "ADD_EMPLOYEE"
                 },
@@ -65,16 +69,12 @@ function mainMenu() {
                     value: "UPDATE_EMPLOYEE_MANAGER"
                 },
                 {
-                    name: "View All Employees",
-                    value: "ALL_EMPLOYEES"
-                },
-                {
                     name: "View All Employees By Department",
-                    value: "SORT_ALL_BY_DEPARTMENT"
+                    value: "VIEW_BY_DEPARTMENT"
                 },
                 {
                     name: "View All Employees By Manager",
-                    value: "SORT_ALL_BY_MANAGER"
+                    value: "VIEW_BY_MANAGER"
                 },
                 {
                     name: "Exit",
@@ -83,7 +83,7 @@ function mainMenu() {
             ]
         }
     ]).then(res => {
-        let options = res.options;
+        let options = res.choice;
         switch (options) {
             case "ADD_EMPLOYEE":
                 createEmployee();
@@ -104,7 +104,7 @@ function mainMenu() {
                 deleteRole();
                 break;
             case "VIEW_BY_DEPARTMENT":
-                viewByDepartment();
+                viewEmployeesByDepartment();
                 break;
             case "VIEW_BY_MANAGER":
                 viewByManager();
@@ -121,7 +121,7 @@ function mainMenu() {
             case "VIEW_DEPARTMENTS":
                 viewDepartments();
                 break;
-            case "VIEW_All_ROLES":
+            case "VIEW_ROLES":
                 viewRoles();
                 break;
             default:
@@ -137,42 +137,42 @@ function mainMenu() {
 // DEPARTMENT FUNCTIONS
 //  View
 function viewDepartments() {
-    db.findAllDepartments()
+    db.findDepartments()
         .then(([rows]) => {
             let departments = rows;
-            // console.log("\n");
+            console.log("\n");
             console.table(departments);
         })
         .then(() => mainMenu());
 }
 
 // View sorted by department
-function viewByDepartment() {
-    db.findAllDepartments()
-      .then(([rows]) => {
-        let departments = rows;
-        const departmentChoices = departments.map(({ id, name }) => ({
-          name: name,
-          value: id
-        }));
-  
-        prompt([
-          {
-            type: "list",
-            name: "departmentId",
-            message: "Which department do you want to view?",
-            choices: departmentChoices
-          }
-        ])
-          .then(res => db.viewByDepartment(res.departmentId))
-          .then(([rows]) => {
-            let employees = rows;
-            // console.log("\n");
-            console.table(employees);
-          })
-          .then(() => mainMenu())
-      });
-  }
+function viewEmployeesByDepartment() {
+    db.findDepartments()
+        .then(([rows]) => {
+            let departments = rows;
+            const departmentChoices = departments.map(({ id, name }) => ({
+                name: name,
+                value: id
+            }));
+
+            prompt([
+                {
+                    type: "list",
+                    name: "departmentId",
+                    message: "Which department do you want to view?",
+                    choices: departmentChoices
+                }
+            ])
+                .then(res => db.viewByDepartment(res.departmentId))
+                .then(([rows]) => {
+                    let employees = rows;
+                    console.log("\n");
+                    console.table(employees);
+                })
+                .then(() => mainMenu())
+        });
+}
 
 // ADD
 function createDepartment() {
@@ -192,7 +192,7 @@ function createDepartment() {
 
 // DELETE
 function deleteDepartment() {
-    db.findAllDepartments()
+    db.findDepartments()
         .then(([rows]) => {
             let departments = rows;
             const departmentChoices = departments.map(({ id, name }) => ({
@@ -216,7 +216,7 @@ function deleteDepartment() {
 // ROLE FUNCTIONS
 // View
 function viewRoles() {
-    db.findAllRoles()
+    db.findRoles()
         .then(([rows]) => {
             let roles = rows;
             // console.log("\n");
@@ -227,7 +227,7 @@ function viewRoles() {
 
 // Add
 function createRole() {
-    db.findAllDepartments()
+    db.findDepartments()
         .then(([rows]) => {
             let departments = rows;
             const departmentChoices = departments.map(({ id, name }) => ({
@@ -261,7 +261,7 @@ function createRole() {
 
 // Delete
 function deleteRole() {
-    db.findAllRoles()
+    db.findRoles()
         .then(([rows]) => {
             let roles = rows;
             const roleChoices = roles.map(({ id, title }) => ({
@@ -287,14 +287,14 @@ function deleteRole() {
 // EMPLOYEE FUNCTION
 // View all employees
 function viewEmployees() {
-    db.findAllEmployees()
-      .then(([rows]) => {
-        let employees = rows;
-        // console.log("\n");
-        console.table(employees);
-      })
-      .then(() => mainMenu());
-  }
+         db.findEmployees()
+        .then(([rows]) => {
+            let employees = rows;
+            // console.log("\n");
+            console.table(employees);
+        })
+        .then(() => mainMenu());
+}
 
 
 
@@ -369,7 +369,7 @@ function createEmployee() {
 
 //   DELETE 
 function deleteEmployee() {
-    db.findAll()
+    db.findEmployees()
         .then(([rows]) => {
             let employees = rows;
             const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
@@ -385,7 +385,7 @@ function deleteEmployee() {
                     choices: employeeChoices
                 }
             ])
-                .then(res => db.removeEmployee(res.employeeId))
+                .then(res => db.deleteEmployee(res.employeeId))
                 .then(() => console.log("Removed employee from the database"))
                 .then(() => mainMenu())
         })
@@ -393,7 +393,7 @@ function deleteEmployee() {
 
 // UPDATE: role
 function updateEmployeeRole() {
-    db.findAll()
+    db.findEmployees()
         .then(([rows]) => {
             let employees = rows;
             const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
@@ -411,7 +411,7 @@ function updateEmployeeRole() {
             ])
                 .then(res => {
                     let employeeId = res.employeeId;
-                    db.findAllRoles()
+                    db.findRoles()
                         .then(([rows]) => {
                             let roles = rows;
                             const roleChoices = roles.map(({ id, title }) => ({
@@ -437,7 +437,7 @@ function updateEmployeeRole() {
 
 // UPDATE: manager
 function updateEmployeeManager() {
-    db.findAll()
+    db.findEmployees()
         .then(([rows]) => {
             let employees = rows;
             const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
@@ -455,7 +455,7 @@ function updateEmployeeManager() {
             ])
                 .then(res => {
                     let employeeId = res.employeeId
-                    db.findAllPossibleManagers(employeeId)
+                    db.findPossibleManagers(employeeId)
                         .then(([rows]) => {
                             let managers = rows;
                             const managerChoices = managers.map(({ id, first_name, last_name }) => ({
@@ -482,41 +482,41 @@ function updateEmployeeManager() {
 
 // MANAGER FUNCTION
 function viewByManager() {
-    db.findAllEmployees()
-      .then(([rows]) => {
-        let managers = rows;
-        const managerChoices = managers.map(({ id, first_name, last_name }) => ({
-          name: `${first_name} ${last_name}`,
-          value: id
-        }));
-  
-        prompt([
-          {
-            type: "list",
-            name: "managerId",
-            message: "Which employee do you want to see direct reports for?",
-            choices: managerChoices
-          }
-        ])
-          .then(res => db.findAllEmployeesByManager(res.managerId))
-          .then(([rows]) => {
-            let employees = rows;
-            console.log("\n");
-            if (employees.length === 0) {
-              console.log("The selected employee has no direct reports");
-            } else {
-              console.table(employees);
-            }
-          })
-          .then(() => loadMainPrompts())
-      });
-  }
+    db.findEmployees()
+        .then(([rows]) => {
+            let managers = rows;
+            const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+                name: `${first_name} ${last_name}`,
+                value: id
+            }));
+
+            prompt([
+                {
+                    type: "list",
+                    name: "managerId",
+                    message: "Which employee do you want to see direct reports for?",
+                    choices: managerChoices
+                }
+            ])
+                .then(res => db.viewByManager(res.managerId))
+                .then(([rows]) => {
+                    let employees = rows;
+                    console.log("\n");
+                    if (employees.length === 0) {
+                        console.log("The selected employee has no direct reports");
+                    } else {
+                        console.table(employees);
+                    }
+                })
+                .then(() => mainMenu())
+        });
+}
 
 
 
 function quit() {
     console.log("Goodbye");
     process.exit();
-  }
+}
 
 
