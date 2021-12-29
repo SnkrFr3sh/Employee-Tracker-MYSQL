@@ -5,7 +5,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
-
+![Employee Tracker Screenshot](https://user-images.githubusercontent.com/87551856/147695886-a4bd126f-c62d-4b6f-a4f0-5c42c7a85b6b.png)
 
 ## Description
 This project is created for users to track employees information. Specifically Employee names, roles, salary, and managers they report to. You are able to add, remove, and update information through this application.
@@ -37,12 +37,19 @@ This project is created for users to track employees information. Specifically E
 
 
 ## Installation
-1. Download the respository off GitHub. 2. Open the repository folder within VSCODE. 3. Run the index.js file, located in the root repository folder, through the terminal. 4. run "npm install" to install the npm packages (ie Inquirer). 5. run "node index.js" in the terminal. 
+1. Download the respository off GitHub. 
+2. Open the repository folder within VSCODE. 
+3. Run the index.js file, located in the root repository folder, through the terminal. 
+4. Run "npm install" to install the npm packages (ie Inquirer). 
+5. Run "node index.js" in the terminal. 
 
 
 
 ## Usage
-TO ADD AN EMPLOYEE: 1. Using the arrow buttons, scroll to "Add Employee" and press ENTER. 2. Follow the prompts. Be sure to have all the information (name, role, salary, manager) ready for database input. 3. Once entered, the employee will then be put into the database with information you inputted. 
+TO ADD AN EMPLOYEE: 
+1. Using the arrow buttons, scroll to "Add Employee" and press ENTER. 
+2. Follow the prompts. Be sure to have all the information (name, role, salary, manager) ready for database input. 
+3. Once entered, the employee will then be put into the database with information you inputted. 
 
 
 
